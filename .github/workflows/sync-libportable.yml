@@ -1,0 +1,73 @@
+# 每周检查上游 libportable，发现新版本就自动同步 bin/ 并提交。
+# 成品是否真的便携，仍由各浏览器仓库构建时的注入校验 + 无头实测把关。
+name: Sync libportable
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 1'
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装 7-Zip
+        run: |
+          if ! command -v 7z >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y p7zip-full
+          fi
+
+      - run: pip install -r requirements.txt
+
+      - name: 对比上游版本
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/sync_libportable.py --check
+
+      - name: 自动同步并提交
+        id: sync
+        if: steps.check.outputs.update_available == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python tools/sync_libportable.py --tag "${{ steps.check.outputs.latest_tag }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bin/
+          if git diff --cached --quiet; then
+            echo "bin/ 无变化，跳过提交。"
+          else
+            git commit -m "chore: 同步 libportable 到 ${{ steps.check.outputs.latest_tag }}"
+            git push
+          fi
+
+      - name: 关闭相关 issue
+        if: steps.check.outputs.update_available == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.check.outputs.latest_tag }}
+          PREV: ${{ steps.check.outputs.current_tag }}
+          RELEASE_URL: ${{ steps.check.outputs.release_url }}
+        run: |
+          comment="已自动同步 libportable \`$PREV\` → \`$TAG\`。
+
+          发行页面：$RELEASE_URL
+          提交后 bin/manifest.json 已更新为新版本哈希。
+          便携性由各浏览器仓库下次构建的注入校验与无头实测继续把关。"
+          gh issue list --state open --search "libportable in:title" --json number,title \
+            --jq '.[] | select(.title | test("libportable")) | .number' \
+            | while read -r num; do
+                gh issue close "$num" --comment "$comment"
+              done

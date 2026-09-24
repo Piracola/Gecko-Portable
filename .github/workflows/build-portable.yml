@@ -22,7 +22,7 @@ on:
         type: string
         default: ''
       builder-ref:
-        description: '检出 Browser-builder 的分支或标签，应与 uses: 里的引用保持一致'
+        description: '检出 Gecko-Portable 的分支或标签，应与 uses: 里的引用保持一致'
         required: false
         type: string
         default: 'main'
@@ -59,10 +59,10 @@ jobs:
       # 注意：可复用工作流里拿不到自身所在的提交（github.job_workflow_sha 为空），
       # 所以用显式的 builder-ref 输入。想要完全可复现，就在调用方把 uses: 的引用
       # 和 builder-ref 同时指向同一个 tag。
-      - name: 检出构建器 Browser-builder
+      - name: 检出构建器 Gecko-Portable
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/Browser-builder
+          repository: ${{ github.repository_owner }}/Gecko-Portable
           ref: ${{ inputs.builder-ref }}
           path: builder
 
@@ -90,7 +90,7 @@ jobs:
             --browser ${{ inputs.browser }} `
             --lang ${{ inputs.lang }} `
             --auto-version --check-only `
-            --libportable libportable
+            --portable portable
 
       - name: 判断是否需要构建
         id: version-check
@@ -134,7 +134,7 @@ jobs:
             --lang ${{ inputs.lang }} `
             --version "${{ steps.resolve.outputs.resolved_version }}" `
             --url "${{ steps.resolve.outputs.resolved_url }}" `
-            --libportable libportable `
+            --portable portable `
             --launcher 开始.bat `
             --smoke-test-timeout 180
 
@@ -166,7 +166,7 @@ jobs:
             "|------|-----|",
             "| 安装包来源 | 上游官方安装包，构建时已按官方公布的哈希校验 |",
             "| 便携化组件 | [libportable $libportable](https://github.com/adonais/libportable/releases/tag/$libportable) |",
-            "| 构建器提交 | [``${{ steps.builder-info.outputs.builder_sha }}``](https://github.com/${{ github.repository_owner }}/Browser-builder/commit/${{ steps.builder-info.outputs.builder_sha }}) |",
+            "| 构建器提交 | [``${{ steps.builder-info.outputs.builder_sha }}``](https://github.com/${{ github.repository_owner }}/Gecko-Portable/commit/${{ steps.builder-info.outputs.builder_sha }}) |",
             "| 产物 SHA-256 | ``$sha256`` |",
             "",
             "校验下载文件（PowerShell）：",

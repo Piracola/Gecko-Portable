@@ -11,10 +11,10 @@ SHA-256 digests. Child repositories only carry configuration (``portable.ini``)
 and their launcher.
 
 Related repositories:
-- Browser-builder: https://github.com/Piracola/Browser-builder
-- Firefox-Libportable: https://github.com/Piracola/Firefox-Libportable
+- Gecko-Portable: https://github.com/Piracola/Gecko-Portable
+- Firefox-Portable: https://github.com/Piracola/Firefox-Portable
 - Floorp_portable: https://github.com/Piracola/Floorp_portable
-- Zen-Libportable: https://github.com/Piracola/Zen-Libportable
+- Zen-Portable: https://github.com/Piracola/Zen-Portable
 """
 
 from __future__ import annotations
@@ -55,7 +55,7 @@ UPSTREAM_LICENSE_NAME = "LICENSE-libportable.txt"
 INJECTION_CARRIER = "mozglue.dll"
 MAX_PE_SCAN_BYTES = 64 * 1024 * 1024
 
-# Never copied out of a child repo's libportable directory: injection tooling is
+# Never copied out of a child repo's portable directory: injection tooling is
 # owned by bin/, and shipping it inside the finished package only confuses users.
 CONFIG_COPY_BLOCKLIST = {
     "upcheck.exe",
@@ -328,11 +328,11 @@ class BrowserBuilder:
         self.launcher_arg: Optional[str] = args.launcher
 
         # Only needed for a real build; --check-only just resolves a version.
-        self.libportable_path: Optional[Path] = Path(args.libportable).resolve() if args.libportable else None
-        if self.libportable_path and not self.libportable_path.is_dir():
-            raise BuildError(f"Libportable config directory not found: {self.libportable_path}")
-        if not self.check_only and self.libportable_path is None:
-            raise BuildError("--libportable is required when building (it holds this browser's portable.ini).")
+        self.portable_path: Optional[Path] = Path(args.portable).resolve() if args.portable else None
+        if self.portable_path and not self.portable_path.is_dir():
+            raise BuildError(f"Portable config directory not found: {self.portable_path}")
+        if not self.check_only and self.portable_path is None:
+            raise BuildError("--portable is required when building (it holds this browser's portable.ini).")
 
         self.bin_dir: Path = Path(args.bin_dir).resolve() if args.bin_dir else DEFAULT_BIN_DIR
         self.seven_zip: Optional[str] = None
@@ -565,11 +565,11 @@ class BrowserBuilder:
         logger.info("Injecting portable runtime ...")
 
         copied = 0
-        for item in sorted(self.libportable_path.glob("*")):
+        for item in sorted(self.portable_path.glob("*")):
             if item.is_file() and item.name.lower() not in CONFIG_COPY_BLOCKLIST:
                 shutil.copy2(item, core_dir)
                 copied += 1
-        logger.info("Copied %d configuration file(s) from %s", copied, self.libportable_path)
+        logger.info("Copied %d configuration file(s) from %s", copied, self.portable_path)
 
         shutil.copy2(self.bin_dir / PORTABLE_DLL_NAME, core_dir / PORTABLE_DLL_NAME)
         # The package redistributes libportable's runtime, so its documentation
@@ -619,7 +619,7 @@ class BrowserBuilder:
                 logger.warning("No portable.ini supplied; falling back to %s", fallback)
                 shutil.copy2(fallback, target)
                 return
-        raise BuildError("No portable.ini found in the libportable directory and no example available.")
+        raise BuildError("No portable.ini found in the portable directory and no example available.")
 
     # ------------------------------------------------------------ verify PE
 
@@ -859,12 +859,12 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""\
 Browser repositories that use this shared builder:
-  Firefox-Libportable: https://github.com/Piracola/Firefox-Libportable
-  Floorp_portable:     https://github.com/Piracola/Floorp_portable
-  Zen-Libportable:     https://github.com/Piracola/Zen-Libportable
+  Firefox-Portable: https://github.com/Piracola/Firefox-Portable
+  Floorp_portable:  https://github.com/Piracola/Floorp_portable
+  Zen-Portable:     https://github.com/Piracola/Zen-Portable
 
 Typical usage:
-  python builder/build.py --browser firefox --auto-version --libportable libportable --launcher 开始.bat
+  python builder/build.py --browser firefox --auto-version --portable portable --launcher 开始.bat
 """,
     )
     parser.add_argument("--browser", required=True, choices=sorted(BROWSERS), help="Browser to build")
@@ -873,7 +873,7 @@ Typical usage:
     parser.add_argument("--auto-version", action="store_true", help="Resolve the latest version and installer URL")
     parser.add_argument("--check-only", action="store_true", help="Only resolve version and URL, then exit")
     parser.add_argument("--lang", default=DEFAULT_FIREFOX_LANG, help=f"Firefox installer language, e.g. zh-CN (default: {DEFAULT_FIREFOX_LANG})")
-    parser.add_argument("--libportable", help="Directory holding this browser's portable.ini (required unless --check-only)")
+    parser.add_argument("--portable", help="Directory holding this browser's portable.ini (required unless --check-only)")
     parser.add_argument("--bin-dir", help=f"Directory holding the injection binaries (default: {DEFAULT_BIN_DIR})")
     parser.add_argument("--launcher", help="Launcher script to ship inside the package")
     parser.add_argument("--workspace", help="Build workspace (default: current directory)")
