@@ -11,7 +11,7 @@ Firefox 系列便携浏览器的通用构建器
 
 **语言 / Language:** **简体中文** · [English](README.en.md)
 
-[浏览器成品](#浏览器成品) · [开发文档](./docs/usage.md) · [新增浏览器](./docs/extend.md)
+[浏览器成品](#浏览器成品) · [姊妹内核](#姊妹内核) · [开发文档](./docs/usage.md) · [新增浏览器](./docs/extend.md)
 
 </div>
 
@@ -26,6 +26,25 @@ Firefox 系列便携浏览器的通用构建器
 | **Zen 便携版** | [Zen-Portable][link-zen] | [![][badge-zen-release]][link-zen] | [![][badge-zen-downloads]][link-zen] | [![][badge-zen-stars]][link-zen] |
 
 > 各仓库只保存配置和启动脚本；下载、校验、注入、打包全部集中在本仓库完成。
+
+## 姊妹内核
+
+Firefox 系和 Chromium 系各有一个构建核心，两个仓库独立维护、各自发布，但目录结构与发布思路是同一套：用 7-Zip 解包 → 注入便携化运行时（Gecko 侧是 [libportable][link-libportable]，Chromium 侧是 Chrome++）→ 打包 7z 并公布 SHA256。
+
+| 内核 | 构建核心仓库 | 负责的浏览器 |
+| --- | --- | --- |
+| **Gecko 系** | [Gecko-Portable][link-gecko]（本仓库） | Firefox、Floorp、Zen |
+| **Chromium 系** | [ChromiumPortable][link-chromium] | Chrome、Edge、Helium，以及 Brave / Vivaldi 等自用构建 |
+
+**Chromium 系成品（由姊妹内核构建）**
+
+| 项目 | 仓库 |
+| --- | --- |
+| **Google Chrome 便携版** | [Chrome-Portable][link-chrome] |
+| **Microsoft Edge 便携版** | [Edge_Portable][link-edge] |
+| **Helium 便携版** | [Helium_Portable][link-helium] |
+
+上方的[浏览器成品](#浏览器成品)三个渠道由本仓库构建；Chromium 系三个渠道由 [ChromiumPortable][link-chromium] 构建。
 
 ## 仓库分工
 
@@ -98,3 +117,10 @@ Firefox 系（Gecko + `mozglue.dll`）基本都能接入。步骤见 [docs/exten
 [badge-zen-downloads]: https://img.shields.io/github/downloads/Piracola/Zen-Portable/total?style=flat-square&color=2ea043&label=
 [badge-zen-stars]: https://img.shields.io/github/stars/Piracola/Zen-Portable?style=flat-square&color=2f81f7&label=
 [link-zen]: https://github.com/Piracola/Zen-Portable
+
+[link-gecko]: https://github.com/Piracola/Gecko-Portable
+[link-chromium]: https://github.com/Piracola/ChromiumPortable
+
+[link-chrome]: https://github.com/Piracola/Chrome-Portable
+[link-edge]: https://github.com/Piracola/Edge_Portable
+[link-helium]: https://github.com/Piracola/Helium_Portable

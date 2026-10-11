@@ -11,7 +11,7 @@ Shared builder for Firefox-family portable browsers
 
 **Language / 语言:** [简体中文](README.md) · **English**
 
-[Browser packages](#browser-packages) · [Docs](./docs/usage.md) · [Add a browser](./docs/extend.md)
+[Browser packages](#browser-packages) · [Sibling engine](#sibling-engine) · [Docs](./docs/usage.md) · [Add a browser](./docs/extend.md)
 
 </div>
 
@@ -26,6 +26,25 @@ This repository is the build engine behind the Firefox-family portable packages.
 | **Zen Portable** | [Zen-Portable][link-zen] | [![][badge-zen-release]][link-zen] | [![][badge-zen-downloads]][link-zen] | [![][badge-zen-stars]][link-zen] |
 
 > Browser repositories only carry configuration and a launcher. Download, verification, injection and packaging all happen here.
+
+## Sibling engine
+
+Firefox-family and Chromium-family builds each have their own engine. The two repositories are maintained and released independently, but they follow the same shape: unpack with 7-Zip → inject the portability runtime ([libportable][link-libportable] on the Gecko side, Chrome++ on the Chromium side) → package as 7z and publish a SHA256.
+
+| Family | Engine repository | Browsers covered |
+| --- | --- | --- |
+| **Gecko family** | [Gecko-Portable][link-gecko] (this repo) | Firefox, Floorp, Zen |
+| **Chromium family** | [ChromiumPortable][link-chromium] | Chrome, Edge, Helium, plus personal builds such as Brave / Vivaldi |
+
+**Chromium-family products (built by the sibling engine)**
+
+| Product | Repository |
+| --- | --- |
+| **Google Chrome Portable** | [Chrome-Portable][link-chrome] |
+| **Microsoft Edge Portable** | [Edge_Portable][link-edge] |
+| **Helium Portable** | [Helium_Portable][link-helium] |
+
+The channels under [Browser packages](#browser-packages) are built by this repository; the three Chromium channels are built by [ChromiumPortable][link-chromium].
 
 ## How the repositories are split
 
@@ -97,3 +116,10 @@ The binaries under `bin/` come from [libportable][link-libportable] and are cove
 [badge-zen-downloads]: https://img.shields.io/github/downloads/Piracola/Zen-Portable/total?style=flat-square&color=2ea043&label=
 [badge-zen-stars]: https://img.shields.io/github/stars/Piracola/Zen-Portable?style=flat-square&color=2f81f7&label=
 [link-zen]: https://github.com/Piracola/Zen-Portable
+
+[link-gecko]: https://github.com/Piracola/Gecko-Portable
+[link-chromium]: https://github.com/Piracola/ChromiumPortable
+
+[link-chrome]: https://github.com/Piracola/Chrome-Portable
+[link-edge]: https://github.com/Piracola/Edge_Portable
+[link-helium]: https://github.com/Piracola/Helium_Portable
