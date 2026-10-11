@@ -27,25 +27,6 @@ Firefox 系列便携浏览器的通用构建器
 
 > 各仓库只保存配置和启动脚本；下载、校验、注入、打包全部集中在本仓库完成。
 
-## 姊妹内核
-
-Firefox 系和 Chromium 系各有一个构建核心，两个仓库独立维护、各自发布，但目录结构与发布思路是同一套：用 7-Zip 解包 → 注入便携化运行时（Gecko 侧是 [libportable][link-libportable]，Chromium 侧是 Chrome++）→ 打包 7z 并公布 SHA256。
-
-| 内核 | 构建核心仓库 | 负责的浏览器 |
-| --- | --- | --- |
-| **Gecko 系** | [Gecko-Portable][link-gecko]（本仓库） | Firefox、Floorp、Zen |
-| **Chromium 系** | [ChromiumPortable][link-chromium] | Chrome、Edge、Helium，以及 Brave / Vivaldi 等自用构建 |
-
-**Chromium 系成品（由姊妹内核构建）**
-
-| 项目 | 仓库 |
-| --- | --- |
-| **Google Chrome 便携版** | [Chrome-Portable][link-chrome] |
-| **Microsoft Edge 便携版** | [Edge_Portable][link-edge] |
-| **Helium 便携版** | [Helium_Portable][link-helium] |
-
-上方的[浏览器成品](#浏览器成品)三个渠道由本仓库构建；Chromium 系三个渠道由 [ChromiumPortable][link-chromium] 构建。
-
 ## 仓库分工
 
 | 层级 | 内容 |
@@ -76,6 +57,25 @@ python build.py --browser firefox --auto-version `
 
 Firefox 系（Gecko + `mozglue.dll`）基本都能接入。步骤见 [docs/extend.md](./docs/extend.md)，候选清单见 [docs/gecko-browsers.md](./docs/gecko-browsers.md)。
 
+## 姊妹内核
+
+Firefox 系和 Chromium 系各有一个构建核心，两个仓库独立维护、各自发布，但目录结构与发布思路是同一套：用 7-Zip 解包 → 注入便携化运行时（Gecko 侧是 [libportable][link-libportable]，Chromium 侧是 Chrome++）→ 打包 7z 并公布 SHA256。
+
+| 内核 | 构建核心仓库 | 负责的浏览器 |
+| --- | --- | --- |
+| **Gecko 系** | [Gecko-Portable][link-gecko]（本仓库） | Firefox、Floorp、Zen |
+| **Chromium 系** | [ChromiumPortable][link-chromium] | Chrome、Edge、Helium，以及 Brave / Vivaldi 等自用构建 |
+
+**Chromium 系成品（由姊妹内核构建）**
+
+| 项目 | 仓库 |
+| --- | --- |
+| **Google Chrome 便携版** | [Chrome-Portable][link-chrome] |
+| **Microsoft Edge 便携版** | [Edge_Portable][link-edge] |
+| **Helium 便携版** | [Helium_Portable][link-helium] |
+
+上方的[浏览器成品](#浏览器成品)三个渠道由本仓库构建；Chromium 系三个渠道由 [ChromiumPortable][link-chromium] 构建。
+
 ## 许可证
 
 本仓库采用 MIT 许可证，详见 [LICENSE](LICENSE)。
@@ -86,7 +86,7 @@ Firefox 系（Gecko + `mozglue.dll`）基本都能接入。步骤见 [docs/exten
 
 <div align="center">
 
-<sub>Built and maintained by</sub>
+<sub>Built and maintained with ❤️ by</sub>
 
 **Piracola**
 

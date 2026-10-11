@@ -27,25 +27,6 @@ This repository is the build engine behind the Firefox-family portable packages.
 
 > Browser repositories only carry configuration and a launcher. Download, verification, injection and packaging all happen here.
 
-## Sibling engine
-
-Firefox-family and Chromium-family builds each have their own engine. The two repositories are maintained and released independently, but they follow the same shape: unpack with 7-Zip → inject the portability runtime ([libportable][link-libportable] on the Gecko side, Chrome++ on the Chromium side) → package as 7z and publish a SHA256.
-
-| Family | Engine repository | Browsers covered |
-| --- | --- | --- |
-| **Gecko family** | [Gecko-Portable][link-gecko] (this repo) | Firefox, Floorp, Zen |
-| **Chromium family** | [ChromiumPortable][link-chromium] | Chrome, Edge, Helium, plus personal builds such as Brave / Vivaldi |
-
-**Chromium-family products (built by the sibling engine)**
-
-| Product | Repository |
-| --- | --- |
-| **Google Chrome Portable** | [Chrome-Portable][link-chrome] |
-| **Microsoft Edge Portable** | [Edge_Portable][link-edge] |
-| **Helium Portable** | [Helium_Portable][link-helium] |
-
-The channels under [Browser packages](#browser-packages) are built by this repository; the three Chromium channels are built by [ChromiumPortable][link-chromium].
-
 ## How the repositories are split
 
 | Layer | Contents |
@@ -76,6 +57,25 @@ See [docs/usage.md](./docs/usage.md) for the full pipeline and CLI reference.
 
 Any modern Gecko browser with `mozglue.dll` can plug in. Steps: [docs/extend.md](./docs/extend.md). Candidate list: [docs/gecko-browsers.md](./docs/gecko-browsers.md).
 
+## Sibling engine
+
+Firefox-family and Chromium-family builds each have their own engine. The two repositories are maintained and released independently, but they follow the same shape: unpack with 7-Zip → inject the portability runtime ([libportable][link-libportable] on the Gecko side, Chrome++ on the Chromium side) → package as 7z and publish a SHA256.
+
+| Family | Engine repository | Browsers covered |
+| --- | --- | --- |
+| **Gecko family** | [Gecko-Portable][link-gecko] (this repo) | Firefox, Floorp, Zen |
+| **Chromium family** | [ChromiumPortable][link-chromium] | Chrome, Edge, Helium, plus personal builds such as Brave / Vivaldi |
+
+**Chromium-family products (built by the sibling engine)**
+
+| Product | Repository |
+| --- | --- |
+| **Google Chrome Portable** | [Chrome-Portable][link-chrome] |
+| **Microsoft Edge Portable** | [Edge_Portable][link-edge] |
+| **Helium Portable** | [Helium_Portable][link-helium] |
+
+The channels under [Browser packages](#browser-packages) are built by this repository; the three Chromium channels are built by [ChromiumPortable][link-chromium].
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
@@ -86,7 +86,7 @@ The binaries under `bin/` come from [libportable][link-libportable] and are cove
 
 <div align="center">
 
-<sub>Built and maintained by</sub>
+<sub>Built and maintained with ❤️ by</sub>
 
 **Piracola**
 
