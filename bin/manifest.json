@@ -7,21 +7,21 @@
     "release_url": "https://github.com/adonais/libportable/releases/tag/v9.0.10",
     "published_at": "2026-09-04T15:16:41Z",
     "asset": "portable_bin.7z",
-    "asset_sha256": "8a54278786a20908d52160a5001bf156ae6f8d821d786840f3d7435bbf5a5550",
-    "synced_at": "2026-09-24"
+    "asset_sha256": "7a7c85c311734dea187b9a088263514110ab7ae806095d6eef62287a93d8d6e6",
+    "synced_at": "2026-10-26"
   },
   "files": {
     "upcheck64.exe": {
-      "sha256": "0a8d70b2bc9b0e223681d4979342f71aa0a7cbd8f51de344c160c40ed371cd7f",
-      "size": 3545088
+      "sha256": "190b0426fc3711a86893333b5e2d34ba7d55bd0c36decd6641ad05b9d2eab432",
+      "size": 2650112
     },
     "portable64.dll": {
-      "sha256": "85e0c83f456e1b3ab5e60983545dc65918094bd0d31ed5bf90e832bfa1e57a7e",
+      "sha256": "53d160ab099741c67e95455a5d24fe63f2d53a57806a51de02b983cf889e10b2",
       "size": 119808
     },
     "portable(example).ini": {
-      "sha256": "75505cffacf666b1e928e4ed131848f6322f0bda42a63589e3cd157fd3381e76",
-      "size": 6473
+      "sha256": "22ef19614302ccc955afc84701dea9053d0fab1797e658359d49c24f46d6dcdc",
+      "size": 6581
     },
     "README": {
       "sha256": "6f5357a1935ae839387d1e3efdcc12ffd40a434d2c802ec59372fb4a681ceecd",
